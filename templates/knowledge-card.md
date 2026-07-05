@@ -2,6 +2,7 @@
 type: knowledge-card
 source_level: S/A/B
 verified: false
+relevance: ""
 stage: ""
 tags: []
 created: YYYY-MM-DD
@@ -35,4 +36,5 @@ updated: YYYY-MM-DD
 
 > **适用场景**：策略 A（持续积累型）。用于沉淀经过验证的通识知识。
 > **谁写**：LLM 编译草稿，人审核后 promote
-> **关键字段**：`source_level`（信息源分级）、`stage`（阶段标记，如年龄段）、`verified`（是否已审核）
+> **关键字段**：`source_level`（信息源分级）、`relevance`（与我何干，填不出就不入库）、`stage`（阶段标记，如年龄段）、`verified`（是否已审核）
+> **Promote 条件**：实操验证 / 预防性知识(type: preventive) / 研究结论(type: conclusion)，详见 rules/source-grading.md
