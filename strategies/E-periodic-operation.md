@@ -33,6 +33,8 @@
     "月报": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "月报/.草稿" },
     "年报": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "年报/.草稿" },
     "项目": { "maintainer": "human", "writable": false },
+    "项目决策": { "path": "项目/决策记录", "purpose": "项目决策记录，AI下次先读", "maintainer": "human", "writable": false },
+    "项目反馈": { "path": "项目/反馈记录", "purpose": "不满意产出，AI下次先读避免重复犯错", "maintainer": "llm_full", "writable": true },
     "指标": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "指标/.草稿" },
     "经验": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "经验/.草稿" },
     "附件": { "maintainer": "manual", "writable": false },
@@ -84,6 +86,27 @@ KPI 不是静态记录，是动态追踪。形成闭环：目标 → 进展 → 
 
 项目结束时封存，写项目总结（交付物/踩坑提炼/指标达成/可复用模式）。经验保留，不随项目封存。
 
+### 7. 项目决策记录与反馈记录
+
+每个项目下分两个子目录：
+
+| 子目录 | 用途 | 谁维护 | AI 权限 |
+|--------|------|--------|---------|
+| `决策记录` | 项目关键决策、选型理由、架构决定 | 人写 | 只读 |
+| `反馈记录` | 不满意的产出、被打回的内容 | LLM 可写 | 可读写 |
+
+**反馈记录的价值**：AI 下次产出前先读反馈记录，避免重复犯错。这比错题本更前置——错题本是事后复盘，反馈记录是事前预防。
+
+### 8. 半自动反馈蒸馏
+
+不是全自动每晚扫描（AI 会话数据不可获取），而是人触发、LLM 辅助：
+
+```
+人标记不满意产出 → 贴进 反馈记录/ → LLM 分析思维缝隙 → 沉淀到错题本
+```
+
+> `nightly-distill.sh` 的全自动蒸馏在当前技术条件下不可行（Claude Code 会话不可导出、各平台数据不互通）。半自动蒸馏是务实方案。
+
 ## 时效处理
 
 - 原始流水按周期归档（如月度归档）
@@ -110,4 +133,5 @@ KPI 不是静态记录，是动态追踪。形成闭环：目标 → 进展 → 
 | `templates/kpi-tracking.md` | KPI 追踪表（目标→进展→差距→趋势） |
 | `templates/experience-pattern.md` | 经验模式（触发场景+排查路径+复用记录） |
 | `templates/project-summary.md` | 项目总结（封存产出） |
+| `templates/mistake-book.md` | 错题本（认知/决策错误，半自动蒸馏产出） |
 | `templates/inbox-item.md` | 灵感库条目（公共） |
