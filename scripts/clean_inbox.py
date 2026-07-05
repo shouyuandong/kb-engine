@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""灵感库清理：扫描灵感库，提示该 promote 到哪个领域。
+
+用法:
+    python scripts/clean_inbox.py [--base-dir /path/to/knowledge]
+"""
+
+import argparse
+import sys
+from pathlib import Path
+from datetime import datetime
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
+from strategy_router import StrategyRouter
+from file_ops import list_files
+
+
+def clean_inbox(base_dir: str, engine_dir: str):
+    """扫描灵感库，为每条内容建议目标领域
+
+    Args:
+        base_dir: 知识库根目录
+        engine_dir: kb-engine 根目录
+    """
+    base_path = Path(base_dir)
+    inbox_dir = base_path / "灵感库"
+
+    if not inbox_dir.exists():
+        print("ℹ️  灵感库不存在")
+        return
+
+    items = list_files(inbox_dir)
+    if not items:
+        print("✅ 灵感库为空")
+        return
+
+    router = StrategyRouter(engine_dir)
+    domains = router.get_all_domains()
+
+    print(f"📥 灵感库有 {len(items)} 条待处理:\n")
+
+    for item in items:
+        content = item.read_text(encoding="utf-8")
+
+        # 提取内容用于建议领域
+        # 去掉 frontmatter
+        if content.startswith("---"):
+            parts = content.split("---", 2)
+            content_body = parts[2] if len(parts) > 2 else content
+        else:
+            content_body = content
+
+        suggested = router.suggest_domain(content_body)
+
+        # 检查文件年龄
+        stat = item.stat()
+        days_old = (datetime.now().timestamp() - stat.st_mtime) / 86400
+
+        age_marker = ""
+        if days_old > 30:
+            age_marker = " ⚠️ 已超过30天"
+        elif days_old > 7:
+            age_marker = " (已超过7天)"
+
+        domain_hint = f" → 建议进「{suggested}」" if suggested else " → 无法自动判断，请手动选择"
+
+        print(f"  📄 {item.name}{age_marker}{domain_hint}")
+
+    print(f"\n处理方式:")
+    print(f"  1. 确认目标领域后，移动到对应领域的 原始资料/")
+    print(f"  2. 无用的直接删除")
+    print(f"  3. LLM 可协助判断领域归属")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="清理灵感库")
+    parser.add_argument("--base-dir", default=".", help="知识库根目录")
+    parser.add_argument("--engine-dir", default=".", help="kb-engine 根目录")
+    args = parser.parse_args()
+
+    engine_dir = Path(__file__).parent.parent
+    clean_inbox(args.base_dir, str(engine_dir))
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,34 @@
+# 风险规则定义（策略 E 专用）
+# LLM 每天扫一遍规则，命中就提醒
+# 没有规则的"风险提醒"等于没有提醒
+
+rules:
+  - name: 任务超期
+    rule: "某任务计划完成日已过且未标记完成"
+    severity: high
+    check_cycle: daily
+
+  - name: KPI连续低于目标
+    rule: "某KPI连续2周低于目标值"
+    severity: medium
+    check_cycle: weekly
+
+  - name: 缺陷长时间未处理
+    rule: "分配给我的缺陷超过5天未更新状态"
+    severity: medium
+    check_cycle: daily
+
+  - name: 项目超期未封存
+    rule: "项目超过计划结束日期且未封存"
+    severity: high
+    check_cycle: weekly
+
+  - name: 报告缺失
+    rule: "某周/月未生成对应报告"
+    severity: low
+    check_cycle: weekly
+
+# 提醒方式
+notify:
+  method: markdown  # markdown(写入文件) / stdout(终端输出)
+  output_path: "{领域}/风险提醒/YYYY-MM-DD.md"

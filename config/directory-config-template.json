@@ -1,0 +1,35 @@
+{
+  "_comment": "目录配置模板。每个领域根目录下放一份 _目录配置.json，从此模板复制后修改。key 是逻辑名（永不变），path 是实际路径（可改）。策略模板用逻辑名引用，skill 读取此文件做路径映射。",
+  "domain": "领域名",
+  "strategy": "A",
+  "directories": {
+    "逻辑名1": {
+      "path": "实际目录路径",
+      "purpose": "用途说明",
+      "maintainer": "manual",
+      "writable": false
+    },
+    "逻辑名2": {
+      "path": "实际目录路径",
+      "purpose": "用途说明",
+      "maintainer": "llm_draft_human_review",
+      "writable": true,
+      "draft_dir": "草稿区路径"
+    }
+  },
+  "compile_rules": [
+    {
+      "input": "逻辑名1",
+      "output": "逻辑名2",
+      "rule": "编译规则描述"
+    }
+  ],
+  "_maintainer_values": {
+    "manual": "手动放入，LLM 只读",
+    "human": "人写，LLM 只读",
+    "auto": "脚本自动写入",
+    "llm_draft_human_review": "LLM 编译草稿，人审核后 promote",
+    "llm_full": "LLM 全权可读写",
+    "observe_only": "只看不练，LLM 只读"
+  }
+}

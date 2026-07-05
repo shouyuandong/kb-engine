@@ -1,0 +1,24 @@
+# 策略索引：领域 → 策略映射
+# 新增领域时在此添加一行
+
+domains:
+  # 示例（实际使用时替换为你的领域）
+  # 育儿: A
+  # 交易: C
+  # 个人学习: B
+  # 技能追踪: D
+  # 工作: E
+
+# 灵感库配置
+inbox:
+  path: 灵感库/
+  clean_cycle: weekly  # 清理周期：weekly / biweekly / monthly
+  default_strategy: prompt  # 未分类时的处理方式：prompt(提示用户选择) / auto(自动判断)
+
+# 策略模板路径
+strategy_templates:
+  A: strategies/A-continuous-accumulation.md
+  B: strategies/B-topic-research.md
+  C: strategies/C-time-decay.md
+  D: strategies/D-queue-tracking.md
+  E: strategies/E-periodic-operation.md

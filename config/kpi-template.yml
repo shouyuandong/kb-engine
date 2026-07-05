@@ -1,0 +1,20 @@
+# KPI 定义模板
+# 每个指标一个块，标准化定义格式
+# generate_report.py 和 lint.py 读取此文件
+
+kpis:
+  - metric: 代码评审通过率
+    target: 95%
+    period: quarterly  # weekly / monthly / quarterly / yearly
+    data_source: "git log + review system"
+    severity_when_breach: medium  # low / medium / high
+    description: "代码评审一次通过的比例"
+
+  - metric: 缺陷修复时长
+    target: "< 3天"
+    period: monthly
+    data_source: "bug-tracker API"
+    severity_when_breach: medium
+    description: "从缺陷分配到关闭的平均时长"
+
+  # 添加更多指标...
