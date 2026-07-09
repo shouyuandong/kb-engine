@@ -103,7 +103,7 @@ def main():
     parser = argparse.ArgumentParser(description="目录结构迁移")
     parser.add_argument("--domain", required=True, help="领域名")
     parser.add_argument("--base-dir", default=".", help="知识库根目录")
-    parser.add_argument("--execute", action="store_true", help="直接执行（跳过确认）")
+    parser.add_argument("--dry-run", action="store_true", help="只打印迁移计划，不移动文件/不提交")
     args = parser.parse_args()
 
     domain_dir = Path(args.base_dir) / args.domain
@@ -133,12 +133,10 @@ def main():
     plan = generate_migration_plan(domain_dir, changes)
     print(plan)
 
-    # 确认
-    if not args.execute:
-        response = input("\n执行迁移？(y/n): ")
-        if response.lower() != "y":
-            print("已取消")
-            return
+    # 确认（dry-run 只预览）
+    if args.dry_run:
+        print("[dry-run] 预览完成，未移动文件。不加 --dry-run 将直接执行迁移。")
+        return
 
     # 执行
     execute_migration(domain_dir, changes)

@@ -7,6 +7,7 @@
 
 import argparse
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
@@ -20,7 +21,7 @@ from config_loader import ConfigLoader
 from file_ops import list_files, ensure_dir
 
 
-def seal_topic(domain_dir: str):
+def seal_topic(domain_dir: str, dry_run: bool = False):
     """封存研究主题
 
     Args:
@@ -41,14 +42,14 @@ def seal_topic(domain_dir: str):
 
     # 1. 检查原始资料积压
     raw_dir = loader.get_full_path("原始资料")
-    if raw_dir.exists():
-        raw_files = list_files(raw_dir)
-        if raw_files:
-            print(f"  ⚠️  原始资料还有 {len(raw_files)} 个未编译文件")
-            print(f"     建议先完成编译再封存")
-            response = input("  仍然封存？(y/n): ")
-            if response.lower() != "y":
-                return
+    raw_files = list_files(raw_dir) if raw_dir.exists() else []
+    if raw_files:
+        print(f"  ⚠️  原始资料还有 {len(raw_files)} 个未编译文件")
+        print(f"     建议先完成编译再封存")
+
+    if dry_run:
+        print(f"[dry-run] 预览：将对主题「{domain_path.name}」执行封存（生成研究结论摘要并标记 sealed），不写入任何文件。")
+        return
 
     # 2. 生成研究结论摘要
     engine_dir = Path(__file__).parent.parent
@@ -96,15 +97,14 @@ def seal_topic(domain_dir: str):
 
 
 def main():
-    from datetime import datetime
-
     parser = argparse.ArgumentParser(description="封存研究主题（策略 B）")
     parser.add_argument("--domain", required=True, help="领域名（主题路径）")
     parser.add_argument("--base-dir", default=".", help="知识库根目录")
+    parser.add_argument("--dry-run", action="store_true", help="只预览将执行的操作，不写入文件")
     args = parser.parse_args()
 
     domain_dir = str(Path(args.base_dir) / args.domain)
-    seal_topic(domain_dir)
+    seal_topic(domain_dir, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
