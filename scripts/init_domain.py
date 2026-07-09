@@ -30,14 +30,14 @@ from file_ops import ensure_dir
 STRATEGY_CONFIG = {
     "A": {
         "directories": {
-            "原始资料": {"path": "原始资料", "purpose": "输入", "maintainer": "manual", "writable": False},
-            "观察记录": {"path": "观察记录", "purpose": "个案记录", "maintainer": "manual", "writable": False},
-            "学习资料": {"path": "学习资料", "purpose": "待编译资料", "maintainer": "manual", "writable": False},
-            "成长日志": {"path": "成长日志", "purpose": "按月记录", "maintainer": "human", "writable": False},
-            "知识卡片": {"path": "知识卡片", "purpose": "编译后的卡片", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "知识卡片/.草稿"},
-            "阶段重点": {"path": "阶段重点", "purpose": "当前阶段里程碑", "maintainer": "human", "writable": False},
-            "远期观察": {"path": "远期观察", "purpose": "远期内容", "maintainer": "observe_only", "writable": False},
-            "外部政策": {"path": "外部政策", "purpose": "政策/外部规则", "maintainer": "manual", "writable": False},
+            "原始资料": {"path": "00-原始资料", "purpose": "输入", "maintainer": "manual", "writable": False},
+            "观察记录": {"path": "01-观察记录", "purpose": "个案记录", "maintainer": "manual", "writable": False},
+            "学习资料": {"path": "02-学习资料", "purpose": "待编译资料", "maintainer": "manual", "writable": False},
+            "成长日志": {"path": "03-成长日志", "purpose": "按月记录", "maintainer": "human", "writable": False},
+            "知识卡片": {"path": "04-知识卡片", "purpose": "编译后的卡片", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "04-知识卡片/.草稿"},
+            "阶段重点": {"path": "05-阶段重点", "purpose": "当前阶段里程碑", "maintainer": "human", "writable": False},
+            "远期观察": {"path": "06-远期观察", "purpose": "远期内容", "maintainer": "observe_only", "writable": False},
+            "外部政策": {"path": "07-外部政策", "purpose": "政策/外部规则", "maintainer": "manual", "writable": False},
         },
         "compile_rules": [
             {"input": "观察记录", "output": "成长日志", "rule": "不编译成通识，按周期归档"},
@@ -47,8 +47,8 @@ STRATEGY_CONFIG = {
     },
     "B": {
         "directories": {
-            "原始资料": {"path": "原始资料", "purpose": "研究原料", "maintainer": "manual", "writable": False},
-            "研究笔记": {"path": "研究笔记", "purpose": "编译产出", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "研究笔记/.草稿"},
+            "原始资料": {"path": "00-原始资料", "purpose": "研究原料", "maintainer": "manual", "writable": False},
+            "研究笔记": {"path": "01-研究笔记", "purpose": "编译产出", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "01-研究笔记/.草稿"},
         },
         "compile_rules": [
             {"input": "原始资料", "output": "研究笔记", "rule": "编译成结构化笔记，建立反向链接"},
@@ -56,11 +56,11 @@ STRATEGY_CONFIG = {
     },
     "C": {
         "directories": {
-            "原始资料": {"path": "原始资料", "purpose": "输入", "maintainer": "manual", "writable": False},
-            "框架": {"path": "框架", "purpose": "长线框架", "maintainer": "human", "writable": False},
-            "认知": {"path": "认知", "purpose": "编译产出", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "认知/.草稿"},
-            "归档": {"path": "归档", "purpose": "过期判断归档", "maintainer": "llm_full", "writable": True},
-            "过期判断": {"path": "过期判断", "purpose": "待归档判断", "maintainer": "manual", "writable": False},
+            "原始资料": {"path": "00-原始资料", "purpose": "输入", "maintainer": "manual", "writable": False},
+            "框架": {"path": "01-框架", "purpose": "长线框架", "maintainer": "human", "writable": False},
+            "认知": {"path": "02-认知", "purpose": "编译产出", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "02-认知/.草稿"},
+            "归档": {"path": "03-归档", "purpose": "过期判断归档", "maintainer": "llm_full", "writable": True},
+            "过期判断": {"path": "04-过期判断", "purpose": "待归档判断", "maintainer": "manual", "writable": False},
         },
         "compile_rules": [
             {"input": "原始资料", "output": "认知", "rule": "提取要点+标记时效日期，不保留原文"},
@@ -69,12 +69,12 @@ STRATEGY_CONFIG = {
     },
     "D": {
         "directories": {
-            "收集箱": {"path": "收集箱", "purpose": "LLM自动生成草稿", "maintainer": "llm_full", "writable": True},
-            "待尝试": {"path": "待尝试", "purpose": "排队", "maintainer": "human", "writable": False},
-            "尝试记录": {"path": "尝试记录", "purpose": "人写的实测记录", "maintainer": "human", "writable": False},
-            "沉淀": {"path": "沉淀", "purpose": "最终判断+原理", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "沉淀/.草稿"},
-            "我的成果": {"path": "我的成果", "purpose": "自研成果", "maintainer": "human", "writable": False},
-            "外部扫描": {"path": "外部扫描", "purpose": "扫描来源", "maintainer": "manual", "writable": False},
+            "收集箱": {"path": "00-收集箱", "purpose": "LLM自动生成草稿", "maintainer": "llm_full", "writable": True},
+            "待尝试": {"path": "01-待尝试", "purpose": "排队", "maintainer": "human", "writable": False},
+            "尝试记录": {"path": "02-尝试记录", "purpose": "人写的实测记录", "maintainer": "human", "writable": False},
+            "沉淀": {"path": "03-沉淀", "purpose": "最终判断+原理", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "03-沉淀/.草稿"},
+            "我的成果": {"path": "04-我的成果", "purpose": "自研成果", "maintainer": "human", "writable": False},
+            "外部扫描": {"path": "05-外部扫描", "purpose": "扫描来源", "maintainer": "manual", "writable": False},
         },
         "compile_rules": [
             {"input": "外部扫描", "output": "收集箱", "rule": "LLM 从 README 提取标称能力，生成草稿"},
@@ -83,21 +83,21 @@ STRATEGY_CONFIG = {
     },
     "E": {
         "directories": {
-            "原始流水": {"path": "原始流水", "purpose": "自动采集", "maintainer": "auto", "writable": True},
-            "提交记录": {"path": "提交记录", "purpose": "自动拉取提交", "maintainer": "auto", "writable": True},
-            "缺陷记录": {"path": "缺陷记录", "purpose": "自动拉取缺陷", "maintainer": "auto", "writable": True},
-            "会议纪要": {"path": "会议纪要", "purpose": "会议记录", "maintainer": "manual", "writable": False},
-            "每日记录": {"path": "每日记录", "purpose": "每日记录", "maintainer": "manual", "writable": False},
-            "周报": {"path": "周报", "purpose": "周报", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "周报/.草稿"},
-            "月报": {"path": "月报", "purpose": "月报", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "月报/.草稿"},
-            "年报": {"path": "年报", "purpose": "年报", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "年报/.草稿"},
-            "项目": {"path": "项目", "purpose": "项目跟踪", "maintainer": "human", "writable": False},
-            "项目决策": {"path": "项目/决策记录", "purpose": "项目决策记录，AI下次先读", "maintainer": "human", "writable": False},
-            "项目反馈": {"path": "项目/反馈记录", "purpose": "不满意产出，AI下次先读避免重复犯错", "maintainer": "llm_full", "writable": True},
-            "指标": {"path": "指标", "purpose": "KPI追踪", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "指标/.草稿"},
-            "经验": {"path": "经验", "purpose": "踩坑模式", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "经验/.草稿"},
-            "附件": {"path": "附件", "purpose": "非md附件", "maintainer": "manual", "writable": False},
-            "配置": {"path": "配置", "purpose": "规则配置", "maintainer": "manual", "writable": False},
+            "原始流水": {"path": "00-原始流水", "purpose": "自动采集", "maintainer": "auto", "writable": True},
+            "提交记录": {"path": "01-提交记录", "purpose": "自动拉取提交", "maintainer": "auto", "writable": True},
+            "缺陷记录": {"path": "02-缺陷记录", "purpose": "自动拉取缺陷", "maintainer": "auto", "writable": True},
+            "会议纪要": {"path": "03-会议纪要", "purpose": "会议记录", "maintainer": "manual", "writable": False},
+            "每日记录": {"path": "04-每日记录", "purpose": "每日记录", "maintainer": "manual", "writable": False},
+            "周报": {"path": "05-周报", "purpose": "周报", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "05-周报/.草稿"},
+            "月报": {"path": "06-月报", "purpose": "月报", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "06-月报/.草稿"},
+            "年报": {"path": "07-年报", "purpose": "年报", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "07-年报/.草稿"},
+            "项目": {"path": "08-项目", "purpose": "项目跟踪", "maintainer": "human", "writable": False},
+            "项目决策": {"path": "08-项目/决策记录", "purpose": "项目决策记录，AI下次先读", "maintainer": "human", "writable": False},
+            "项目反馈": {"path": "08-项目/反馈记录", "purpose": "不满意产出，AI下次先读避免重复犯错", "maintainer": "llm_full", "writable": True},
+            "指标": {"path": "09-指标", "purpose": "KPI追踪", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "09-指标/.草稿"},
+            "经验": {"path": "10-经验", "purpose": "踩坑模式", "maintainer": "llm_draft_human_review", "writable": True, "draft_dir": "10-经验/.草稿"},
+            "附件": {"path": "11-附件", "purpose": "非md附件", "maintainer": "manual", "writable": False},
+            "配置": {"path": "12-配置", "purpose": "规则配置", "maintainer": "manual", "writable": False},
         },
         "compile_rules": [
             {"input": "原始流水", "output": "周报", "rule": "按周编译，生成周报草稿"},
