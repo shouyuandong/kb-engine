@@ -69,12 +69,18 @@ def clean_inbox(base_dir: str, engine_dir: str):
         elif days_old > 7:
             age_marker = " (已超过7天)"
 
-        domain_hint = f" → 建议进「{suggested}」" if suggested else " → 无法自动判断，请手动选择"
+        raw_dir = router.get_domain_raw_dir(base_dir, suggested) if suggested else None
+        if suggested and raw_dir:
+            domain_hint = f" → 建议进「{suggested}」的「{raw_dir}」"
+        elif suggested:
+            domain_hint = f" → 建议进「{suggested}」（未找到原始目录，请手动选择）"
+        else:
+            domain_hint = " → 无法自动判断，请手动选择"
 
         print(f"  📄 {item.name}{age_marker}{domain_hint}")
 
     print(f"\n处理方式:")
-    print(f"  1. 确认目标领域后，移动到对应领域的 原始资料/")
+    print(f"  1. 确认目标领域后，移动到对应领域的原始/暂存目录（见上方每条建议，如 原始流水/原始资料/收集箱）")
     print(f"  2. 无用的直接删除")
     print(f"  3. LLM 可协助判断领域归属")
 

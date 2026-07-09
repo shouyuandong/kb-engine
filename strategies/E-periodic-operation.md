@@ -37,6 +37,7 @@
     "项目反馈": { "path": "项目/反馈记录", "purpose": "不满意产出，AI下次先读避免重复犯错", "maintainer": "llm_full", "writable": true },
     "指标": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "指标/.草稿" },
     "经验": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "经验/.草稿" },
+    "技能": { "maintainer": "llm_draft_human_review", "writable": true, "draft_dir": "技能/.草稿" },
     "附件": { "maintainer": "manual", "writable": false },
     "配置": { "maintainer": "manual", "writable": false }
   },
@@ -44,6 +45,7 @@
     { "input": "原始流水", "output": "周报", "rule": "按周编译，生成周报草稿" },
     { "input": "周报", "output": "月报", "rule": "按月汇总周报，生成月报草稿" },
     { "input": "缺陷记录", "output": "经验", "rule": "提炼踩坑模式，进经验草稿区" },
+    { "input": "经验", "output": "技能", "rule": "从经验/踩坑提炼可复用技能，进技能草稿区" },
     { "input": "原始流水", "output": "指标", "rule": "按指标定义提取数据，更新追踪表" }
   ]
 }
@@ -134,4 +136,5 @@ KPI 不是静态记录，是动态追踪。形成闭环：目标 → 进展 → 
 | `templates/experience-pattern.md` | 经验模式（触发场景+排查路径+复用记录） |
 | `templates/project-summary.md` | 项目总结（封存产出） |
 | `templates/mistake-book.md` | 错题本（认知/决策错误，半自动蒸馏产出） |
+| `templates/self-built-skill.md` | 自研技能溯源（策略 D/E 复用，落 `技能` 目录） |
 | `templates/inbox-item.md` | 灵感库条目（公共） |

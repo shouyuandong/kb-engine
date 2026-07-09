@@ -63,6 +63,36 @@ class StrategyRouter:
         """获取灵感库配置"""
         return self.index.get("inbox", {})
 
+    def get_domain_raw_dir(self, base_dir: str, domain: str) -> Optional[str]:
+        """读取某领域的 config.json，返回其「原始/暂存」目录的逻辑名。
+
+        用于将灵感库条目 promote 到具体领域时的目标目录提示。
+        优先级关键词匹配：原始 > 流水 > 收集箱 > 尝试记录，命中第一个即返回。
+
+        Args:
+            base_dir: 知识库根目录
+            domain: 领域名
+
+        Returns:
+            逻辑目录名（如 "原始流水"），无配置时返回 None
+        """
+        cfg_path = Path(base_dir) / domain / "config.json"
+        if not cfg_path.exists():
+            return None
+        try:
+            data = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+        except Exception:
+            return None
+        dirs = data.get("directories", {})
+        if not dirs:
+            return None
+        for kw in ("原始", "流水", "收集箱", "尝试记录"):
+            for name in dirs:
+                if kw in name:
+                    return name
+        # 兜底：返回第一个目录
+        return next(iter(dirs), None)
+
     def suggest_domain(self, content: str) -> Optional[str]:
         """根据内容建议领域（简单关键词匹配，LLM 可覆盖此逻辑）
 
