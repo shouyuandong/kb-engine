@@ -13,6 +13,12 @@ from pathlib import Path
 from datetime import datetime, timedelta
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
+
+# 兼容中文 Windows（GBK 终端）：强制 UTF-8 输出，避免 emoji/中文 print 崩溃
+if sys.stdout.encoding and "utf" not in sys.stdout.encoding.lower():
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 from config_loader import ConfigLoader
 from file_ops import list_files
 
@@ -185,7 +191,7 @@ def main():
     if args.all:
         # 检查所有领域
         for item in base_dir.iterdir():
-            if item.is_dir() and (item / "_目录配置.json").exists():
+            if item.is_dir() and (item / "config.json").exists():
                 print(f"\n🔍 检查: {item.name}")
                 issues = lint_domain(str(item), args.check)
                 if issues:

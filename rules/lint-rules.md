@@ -84,4 +84,4 @@ python scripts/lint.py --domain 育儿
 
 > **适用范围**：所有策略
 > **依赖脚本**：`scripts/lint.py`
-> **执行频率**：建议每周一次，或通过 `/知识库 维护` 命令触发
+> **执行频率**：建议每周一次，或通过 `/kb maintain` 命令触发

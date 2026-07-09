@@ -26,7 +26,7 @@
 
 ## 权限隔离
 
-- `_目录配置.json` 的 `writable: false` 的目录，LLM 只读不写
+- `config.json` 的 `writable: false` 的目录，LLM 只读不写
 - 已审核内容（`verified: true`）的文件，LLM 只读不写
 - LLM 只能写 `writable: true` 的目录，且只能写草稿区（`draft_dir`）
 

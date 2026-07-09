@@ -1,0 +1,8 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 项目私有/运行时数据（非源码）
+.workbuddy/
+demo-kb/

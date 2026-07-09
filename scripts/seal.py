@@ -10,6 +10,12 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
+
+# 兼容中文 Windows（GBK 终端）：强制 UTF-8 输出，避免 emoji/中文 print 崩溃
+if sys.stdout.encoding and "utf" not in sys.stdout.encoding.lower():
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 from config_loader import ConfigLoader
 from file_ops import list_files, ensure_dir
 
@@ -76,7 +82,7 @@ def seal_topic(domain_dir: str):
         print(f"\n  📊 wiki 规模: {len(notes)} 篇, 约 {total_words} 字")
 
     # 4. 标记封存
-    config_path = domain_path / "_目录配置.json"
+    config_path = domain_path / "config.json"
     import json
     with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)

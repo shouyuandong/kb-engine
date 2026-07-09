@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""配置加载器：解析领域的 _目录配置.json，提供路径映射接口。
+"""配置加载器：解析领域的 config.json，提供路径映射接口。
 
 所有脚本通过本模块获取实际目录路径，不直接写死路径。
 策略模板用逻辑名引用目录（如 {知识卡片}），本模块负责映射到实际路径。
@@ -12,13 +12,13 @@ from typing import Optional
 
 class ConfigLoader:
     def __init__(self, domain_dir: str):
-        """初始化，加载领域的 _目录配置.json
+        """初始化，加载领域的 config.json
 
         Args:
             domain_dir: 领域根目录路径
         """
         self.domain_dir = Path(domain_dir)
-        self.config_path = self.domain_dir / "_目录配置.json"
+        self.config_path = self.domain_dir / "config.json"
         self.config = self._load()
 
     def _load(self) -> dict:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""编译：读取 _目录配置.json 的 compile_rules，按规则编译 raw → 产出。
+"""编译：读取 config.json 的 compile_rules，按规则编译 raw → 产出。
 
 用法:
     python scripts/compile.py --domain 育儿 [--base-dir /path/to/knowledge]
@@ -11,6 +11,12 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
+
+# 兼容中文 Windows（GBK 终端）：强制 UTF-8 输出，避免 emoji/中文 print 崩溃
+if sys.stdout.encoding and "utf" not in sys.stdout.encoding.lower():
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 from config_loader import ConfigLoader
 from incremental_check import check_changed_files
 

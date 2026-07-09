@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""目录结构迁移：diff 新旧 _目录配置.json，生成迁移计划，批量移动+更新链接。
+"""目录结构迁移：diff 新旧 config.json，生成迁移计划，批量移动+更新链接。
 
 用法:
     python scripts/migrate.py --domain 育儿 [--base-dir /path/to/knowledge]
@@ -12,6 +12,12 @@ from pathlib import Path
 from typing import List, Tuple
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
+
+# 兼容中文 Windows（GBK 终端）：强制 UTF-8 输出，避免 emoji/中文 print 崩溃
+if sys.stdout.encoding and "utf" not in sys.stdout.encoding.lower():
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 from config_loader import ConfigLoader
 from file_ops import rename_dir, batch_update_links, count_files
 from git_ops import GitOps
@@ -101,7 +107,7 @@ def main():
     args = parser.parse_args()
 
     domain_dir = Path(args.base_dir) / args.domain
-    config_path = domain_dir / "_目录配置.json"
+    config_path = domain_dir / "config.json"
 
     # 从 git 获取旧配置
     git = GitOps(str(Path(args.base_dir)))
