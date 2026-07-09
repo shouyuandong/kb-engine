@@ -11,7 +11,7 @@ domains:
 
 # 灵感库配置
 inbox:
-  path: 灵感库/
+  path: 00-灵感库/
   clean_cycle: weekly  # 清理周期：weekly / biweekly / monthly
   default_strategy: prompt  # 未分类时的处理方式：prompt(提示用户选择) / auto(自动判断)
 

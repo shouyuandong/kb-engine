@@ -28,22 +28,23 @@ def clean_inbox(base_dir: str, engine_dir: str):
         base_dir: 知识库根目录
         engine_dir: kb-engine 根目录
     """
+    router = StrategyRouter(engine_dir)
+    inbox_path = router.get_inbox_config().get("path", "00-灵感库").rstrip("/")
     base_path = Path(base_dir)
-    inbox_dir = base_path / "灵感库"
+    inbox_dir = base_path / inbox_path
 
     if not inbox_dir.exists():
-        print("ℹ️  灵感库不存在")
+        print(f"ℹ️  {inbox_path}不存在")
         return
 
     items = list_files(inbox_dir)
     if not items:
-        print("✅ 灵感库为空")
+        print(f"✅ {inbox_path}为空")
         return
 
-    router = StrategyRouter(engine_dir)
     domains = router.get_all_domains()
 
-    print(f"📥 灵感库有 {len(items)} 条待处理:\n")
+    print(f"📥 {inbox_path}有 {len(items)} 条待处理:\n")
 
     for item in items:
         content = item.read_text(encoding="utf-8")
